@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7f8fa">
+<title>González Delivery 2.0</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#f5f6f8;--surface:#fff;--surface2:#f0f2f5;--text:#20232a;--muted:#707783;--line:#e4e7ec;--red:#df2935;--red-dark:#bd1e29;--green:#168653;--shadow:0 8px 28px rgba(20,25,35,.07);--radius:18px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0}.hidden{display:none!important}.wrap{max-width:760px;margin:auto;padding:16px 15px 120px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:5px 0 20px}.brand{display:flex;align-items:center;gap:10px}.logo{width:44px;height:44px;border-radius:14px;background:var(--red);color:#fff;display:grid;place-items:center;font-weight:900;font-size:19px;box-shadow:0 6px 16px #df293533}.brand h1{font-size:17px;line-height:1.1;margin:0}.brand small{color:var(--muted);font-size:11px}.pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 11px;color:var(--muted);font-size:12px}.hero{background:linear-gradient(125deg,#fff,#fff5f5);border:1px solid #f2dfe1;border-radius:24px;padding:21px;margin-bottom:17px}.hero h2{margin:0 0 5px;font-size:23px;letter-spacing:-.6px}.hero p{margin:0;color:var(--muted);font-size:13px}.section-title{font-size:16px;font-weight:800;margin:21px 0 11px}.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:13px}.field{display:flex;flex-direction:column;gap:6px;margin:11px 0}.field label{font-size:12px;font-weight:700;color:#555d68}.field input,.field select,.field textarea,.auth-input{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px 13px;background:#fff;color:var(--text);outline:none;min-height:46px}.field textarea{min-height:76px;resize:vertical}.field input:focus,.field select:focus,.field textarea:focus,.auth-input:focus{border-color:var(--red);box-shadow:0 0 0 3px #df293515}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{padding:12px 16px;border-radius:13px;font-weight:750;min-height:46px;transition:.15s}.btn-primary{background:var(--red);color:#fff}.btn-primary:active{background:var(--red-dark);transform:scale(.99)}.btn-light{background:var(--surface2);color:var(--text)}.btn-outline{background:#fff;border:1px solid var(--line);color:var(--text)}.btn-danger{background:#fff0f1;color:var(--red)}.btn-block{width:100%}.btn-small{padding:7px 10px;min-height:34px;font-size:12px;border-radius:10px}.muted{color:var(--muted)}.tiny{font-size:11px}.notice{padding:11px 13px;border-radius:12px;background:#fff7e8;color:#80551a;font-size:12px;margin:10px 0}.success{background:#eaf8f0;color:#176b43}.error{background:#fff0f1;color:#a51e28}.categories{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.category{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;text-align:left;display:flex;align-items:center;gap:11px;min-height:76px;color:var(--text);box-shadow:0 3px 12px #151a2408}.category:active{border-color:var(--red);background:#fff8f8}.cat-icon{width:40px;height:40px;border-radius:13px;background:#fff0f1;display:grid;place-items:center;font-size:20px}.category b{display:block;font-size:13px}.category small{font-size:11px;color:var(--muted)}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.item-row{padding:12px 0;border-bottom:1px solid var(--line)}.item-row:last-child{border:0}.qty{display:flex;align-items:center;gap:8px}.qty button{width:29px;height:29px;border-radius:9px;background:var(--surface2);font-weight:800}.qty span{min-width:16px;text-align:center;font-weight:700}.price{font-weight:800}.cartbar{position:fixed;z-index:20;bottom:0;left:0;right:0;padding:12px 15px calc(12px + env(safe-area-inset-bottom));background:#ffffffed;backdrop-filter:blur(12px);border-top:1px solid var(--line)}.cart-inner{max-width:760px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}.cart-total{font-weight:900;font-size:18px}.cart-total small{display:block;font-size:11px;color:var(--muted);font-weight:500}.auth-screen{min-height:100vh;display:grid;place-items:center;padding:22px 16px;background:radial-gradient(circle at top right,#ffe8ea,transparent 38%),var(--bg)}.auth-card{width:min(100%,430px);background:#fff;border:1px solid var(--line);border-radius:24px;padding:23px;box-shadow:var(--shadow)}.auth-card h2{font-size:23px;margin:0 0 4px}.auth-card p{margin:0 0 17px;color:var(--muted);font-size:13px}.auth-tabs{display:flex;gap:6px;background:var(--surface2);padding:4px;border-radius:12px;margin:17px 0}.auth-tabs button{flex:1;padding:10px;border-radius:9px;background:transparent;color:var(--muted);font-weight:700}.auth-tabs button.active{background:#fff;color:var(--text);box-shadow:0 2px 8px #1111}.auth-msg{font-size:12px;padding:10px;border-radius:10px;margin-top:10px;display:none}.auth-msg.show{display:block}.auth-foot{font-size:11px;color:var(--muted);text-align:center;margin-top:15px}.tag{font-size:11px;color:var(--red);font-weight:800;background:#fff0f1;padding:5px 8px;border-radius:99px}.divider{height:1px;background:var(--line);margin:15px 0}.total-line{display:flex;justify-content:space-between;margin:8px 0;font-size:13px}.total-line.final{font-size:18px;font-weight:900;border-top:1px solid var(--line);padding-top:12px;margin-top:13px}.empty{text-align:center;padding:24px;color:var(--muted);font-size:13px}.link-btn{background:none;color:var(--red);font-weight:750;padding:8px}.back{display:inline-flex;align-items:center;gap:6px;color:var(--muted);font-weight:700;background:none;padding:4px 0 12px}.hidden-label{display:none}
+@media(min-width:600px){.categories{grid-template-columns:repeat(3,minmax(0,1fr))}.wrap{padding-top:24px}}
+</style>
+</head>
+<body>
+<div id="authScreen" class="auth-screen">
+ <div class="auth-card">
+  <div class="brand" style="margin-bottom:17px"><div class="logo">GD</div><div><h1>GONZÁLEZ DELIVERY</h1><small>Tu pedido, más fácil</small></div></div>
+  <h2 id="authTitle">Bienvenido</h2><p id="authSubtitle">Inicia sesión para realizar tus pedidos.</p>
+  <div class="auth-tabs"><button id="tabLogin" class="active" onclick="setAuthMode('login')">Iniciar sesión</button><button id="tabRegister" onclick="setAuthMode('register')">Crear cuenta</button></div>
+  <div id="registerNameWrap" class="field hidden"><label>Nombre completo</label><input id="authName" class="auth-input" autocomplete="name" placeholder="Tu nombre"></div>
+  <div class="field"><label>Correo electrónico</label><input id="authEmail" class="auth-input" type="email" autocomplete="email" placeholder="correo@ejemplo.com"></div>
+  <div class="field"><label>Contraseña</label><input id="authPassword" class="auth-input" type="password" autocomplete="current-password" placeholder="Mínimo 6 caracteres"></div>
+  <button id="authSubmit" class="btn btn-primary btn-block" onclick="submitAuth()">Iniciar sesión</button>
+  <div id="authMessage" class="auth-msg"></div>
+  <div class="auth-foot">Al continuar, tu cuenta se utilizará para gestionar tus pedidos.</div>
+ </div>
+</div>
+<div id="appScreen" class="hidden">
+ <main class="wrap">
+  <header class="topbar">
+   <div class="brand"><div class="logo">GD</div><div><h1>GONZÁLEZ DELIVERY</h1><small>San Vicente · El Salvador</small></div></div>
+   <button class="pill" onclick="logout()">Cerrar sesión</button>
+  </header>
+  <section id="home">
+   <div class="hero"><div class="row"><div><h2>¿Qué necesitas hoy?</h2><p>Nosotros lo llevamos hasta tu puerta.</p></div><span class="tag">DELIVERY</span></div></div>
+   <div class="section-title">Tus datos de entrega</div>
+   <div class="card">
+    <div class="field"><label>Nombre de quien recibe</label><input id="customerName" placeholder="Nombre completo"></div>
+    <div class="field"><label>Teléfono</label><input id="customerPhone" type="tel" placeholder="Ej. 7000-0000"></div>
+    <div class="field"><label>Zona / lugar de entrega</label><select id="zoneSelect" onchange="updateEstimate()"><option value="">Selecciona tu zona</option></select></div>
+    <div class="grid2"><div class="field"><label>Calle / colonia</label><input id="street" placeholder="Calle o colonia"></div><div class="field"><label>Casa / número</label><input id="house" placeholder="Casa #"></div></div>
+    <div class="field"><label>Punto de referencia</label><input id="reference" placeholder="Frente a..., cerca de..."></div>
+    <button class="btn btn-light btn-block" onclick="shareLocation()">◎ Compartir mi ubicación GPS</button>
+    <div id="gpsStatus" class="tiny muted" style="margin-top:7px"></div>
+   </div>
+   <div class="section-title">Selecciona un servicio</div>
+   <div class="categories">
+    <button class="category" onclick="startCategory('food')"><span class="cat-icon">🍔</span><span><b>Comida</b><small>Restaurantes y antojos</small></span></button>
+    <button class="category" onclick="startCategory('medicine')"><span class="cat-icon">💊</span><span><b>Medicinas</b><small>Farmacias y encargos</small></span></button>
+    <button class="category" onclick="startCategory('shopping')"><span class="cat-icon">🛒</span><span><b>Compras</b><small>Supermercado y tiendas</small></span></button>
+    <button class="category" onclick="startCategory('package')"><span class="cat-icon">📦</span><span><b>Paquetes y mandados</b><small>Recoger o entregar</small></span></button>
+    <button class="category" onclick="startCategory('deposit')"><span class="cat-icon">🏦</span><span><b>Depósitos bancarios</b><small>Tarifa según monto</small></span></button>
+    <button class="category" onclick="startCategory('bills')"><span class="cat-icon">🧾</span><span><b>Pago de facturas</b><small>Servicios y recibos</small></span></button>
+   </div>
+   <div class="section-title">Tarifas de entrega</div>
+   <div class="card" id="tariffList"></div>
+   <div class="tiny muted">Cada lugar adicional de recogida suma $1.50. El total puede variar si hay solicitudes especiales.</div>
+  </section>
+  <section id="builder" class="hidden">
+   <button class="back" onclick="showPage('home')">← Volver</button>
+   <div class="row"><div><div class="section-title" id="builderTitle" style="margin:0">Nuevo servicio</div><div class="tiny muted" id="builderSubtitle"></div></div><span class="tag">NUEVO</span></div>
+   <div class="card" id="builderContent"></div>
+   <button class="btn btn-primary btn-block" onclick="addItem()">Agregar al pedido</button>
+  </section>
+  <section id="review" class="hidden">
+   <button class="back" onclick="showPage('home')">← Volver al inicio</button>
+   <div class="section-title">Revisa tu pedido</div>
+   <div class="card"><div id="reviewItems"></div><div class="divider"></div><div class="total-line"><span>Entrega estimada</span><b id="reviewDelivery">$0.00</b></div><div class="total-line final"><span>Total estimado</span><span id="reviewTotal">$0.00</span></div></div>
+   <div class="section-title">Forma de pago</div>
+   <div class="card">
+    <div class="field"><label>Método de pago</label><select id="paymentMethod" onchange="setPayment()"><option value="Efectivo">Efectivo</option><option value="Transferencia">Transferencia</option><option value="Link de pago">Link de pago</option></select></div>
+    <div id="cashWrap" class="field"><label>¿Con cuánto pagarás?</label><input id="cashAmount" type="number" min="0" step=".01" placeholder="Ej. 20.00"></div>
+    <div class="field"><label>¿Cuándo deseas recibirlo?</label><select id="deliveryMode" onchange="setDelivery()"><option value="Lo antes posible">Lo antes posible</option><option value="Programado">Programar entrega</option></select></div>
+    <div id="scheduleWrap" class="field hidden"><label>Fecha y hora solicitada</label><input id="scheduleTime" type="datetime-local"></div>
+    <div class="field"><label>Indicaciones adicionales (opcional)</label><textarea id="extraNotes" placeholder="Detalles importantes de tu pedido..."></textarea></div>
+   </div>
+   <button class="btn btn-primary btn-block" onclick="sendWhatsApp()">Enviar pedido por WhatsApp</button>
+   <p class="tiny muted" style="text-align:center">Al enviar, WhatsApp se abrirá con el detalle para confirmar tu pedido.</p>
+  </section>
+ </main>
+ <div id="cartBar" class="cartbar hidden"><div class="cart-inner"><div class="cart-total"><span id="cartAmount">$0.00</span><small id="cartCount">0 servicios</small></div><button class="btn btn-primary" onclick="goReview()">Revisar pedido →</button></div></div>
+</div>
+<script>
+const SUPABASE_URL='https://rwpyfrqfhrezpkpqlaft.supabase.co';
+const SUPABASE_KEY='sb_publishable_KP1T8764SB16x4Qdlyzlbw_MWK-n3eH';
+const WA_NUMBER='50376749645';
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+const zones=[
+ {price:1.50,places:['Barrio El Centro','San Francisco','San Juan de Dios','Calvario','Santa Elena','Espiga de Oro','Santa Lucía','Vaquerano']},
+ {price:1.75,places:['Agua Caliente','Barrio Concepción','Colonia Durán','Caridad','Los Ángeles','Villas','IVU','California','Bonanza']},
+ {price:2.00,places:['Gloria','San Cristóbal','Lorenzana','Amapulula','Cantón Flores','San Ignacio','Las Minas','Valle Verde','Santa Rosa','Navarra 1','Navarra 2','Brisas Santa Elena']},
+ {price:2.50,places:['Primavera','Cañaveral']},
+ {price:3.00,places:['Brisas 1','San Cayetano Istepeque','Entrevista']},
+ {price:3.50,places:['Tepetitán','Brisas 2','Desvío']},
+ {price:4.00,places:['San Antonio Caminos','Apastepeque (centro)']},
+ {price:5.00,places:['Verapaz','Km 51','Ingenio','Cruzadilla','San Esteban Catarina']},
+ {price:8.00,places:['Guadalupe','Tecoluca','San Lorenzo']},
+ {price:10.00,places:['Santo Domingo','Santa Clara']},
+ {price:12.00,places:['San Sebastián']},
+ {price:15.00,places:['Cedros','Zacatecoluca']}
+];
+const places={
+ food:['Pimentón','Crepe Café','Pupusería Mary','Cocina de Mamá Esperanza','Cocina de Pame','Wan Tan','Pollo Campestre','Papas Fritz','Boston Heladería','La Nevería','Sarita’s','Don Pollo','Pollo Frysby','Pupusería Wendy','Localito','Pupusería Jenny','Pupusería Teresita','Antojitos Santa Elena','Chory','Meus Meninos','Pizza Hut','Little Caesars','Pollo Campero','Subway'],
+ medicine:['Farmacia La Buena','Farmacia Vicentina','Farmacia San Nicolás','Farmacia Belén','Farmacia Brasil','Farmacia CEFAFA','Farmacias Económicas','Farmacia Don Bosco','Farmacia La Moderna','Farmacia Azaleas','Farmacias Virgen de Guadalupe'],
+ shopping:['Maxi Despensa San Vicente','Súper Selectos San Vicente','Despensa Familiar','Súper Éxito','Súper Alameda','Distribuidora Probasic','Dollarcity San Vicente','Súper Tienda Rosita','Negocio Los Ángeles','Dulcería Villalta','Mercado Municipal de San Vicente'],
+ deposit:['Banco Agrícola','BAC','Banco Cuscatlán','Banco Davivienda','Otro banco']
+};
+const titles={food:'Comida',medicine:'Medicinas',shopping:'Compras',package:'Paquetes y mandados',deposit:'Depósitos bancarios',bills:'Pago de facturas'};
+let order=[],currentCategory='',gpsLink='',currentUser=null,editingIndex=-1;
+const money=n=>'$'+Number(n||0).toFixed(2);
+function el(id){return document.getElementById(id)}
+function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function setAuthMessage(msg,type='error'){const n=el('authMessage');n.textContent=msg;n.className='auth-msg show '+type}
+function setAuthMode(mode){const reg=mode==='register';el('tabLogin').classList.toggle('active',!reg);el('tabRegister').classList.toggle('active',reg);el('registerNameWrap').classList.toggle('hidden',!reg);el('authTitle').textContent=reg?'Crear tu cuenta':'Bienvenido';el('authSubtitle').textContent=reg?'Regístrate para comenzar a pedir.':'Inicia sesión para realizar tus pedidos.';el('authSubmit').textContent=reg?'Crear cuenta':'Iniciar sesión';el('authMessage').className='auth-msg'}
+async function submitAuth(){
+ const email=el('authEmail').value.trim(),password=el('authPassword').value,name=el('authName').value.trim(),register=!el('registerNameWrap').classList.contains('hidden');
+ if(!email||!password){setAuthMessage('Escribe tu correo y contraseña.');return}
+ if(password.length<6){setAuthMessage('La contraseña debe tener al menos 6 caracteres.');return}
+ if(register&&!name){setAuthMessage('Escribe tu nombre completo.');return}
+ const btn=el('authSubmit');btn.disabled=true;btn.textContent='Procesando...';
+ try{
+  if(register){
+   const {data,error}=await supabaseClient.auth.signUp({email,password,options:{data:{full_name:name}}});
+   if(error)throw error;
+   if(!data.session){setAuthMessage('Tu cuenta fue creada. Revisa tu correo para confirmar la dirección y luego inicia sesión.','success');setAuthMode('login')}
+   else{await enterApp(data.user)}
+  }else{
+   const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+   if(error)throw error;
+   await enterApp(data.user);
+  }
+ }catch(e){setAuthMessage(e.message||'No se pudo completar el acceso.')}
+ finally{btn.disabled=false;btn.textContent=register?'Crear cuenta':'Iniciar sesión'}
+}
+async function enterApp(user){
+ if(!user){el('authScreen').classList.remove('hidden');return}
+ const {data:profile,error}=await supabaseClient.from('profiles').select('role').eq('id',user.id).single();
+ if(error||!profile){await supabaseClient.auth.signOut();setAuthMessage('No pudimos verificar tu perfil. Contacta al administrador.');return}
+ if(profile.role!=='customer'){
+  await supabaseClient.auth.signOut();
+  setAuthMessage(profile.role==='admin'?'Tu cuenta administrativa está registrada. El panel administrativo se habilitará en la siguiente etapa.':'Tu cuenta de repartidor está registrada. El panel de repartidores se habilitará en la siguiente etapa.');
+  return;
+ }
+ currentUser=user;el('authScreen').classList.add('hidden');el('appScreen').classList.remove('hidden');
+ el('customerName').value=user.user_metadata?.full_name||localStorage.getItem('gd_name')||'';
+ el('customerPhone').value=localStorage.getItem('gd_phone')||'';
+ el('street').value=localStorage.getItem('gd_street')||'';
+ el('house').value=localStorage.getItem('gd_house')||'';
+ el('reference').value=localStorage.getItem('gd_reference')||'';
+ showPage('home');updateSticky();
+}
+async function logout(){await supabaseClient.auth.signOut();currentUser=null;order=[];el('appScreen').classList.add('hidden');el('authScreen').classList.remove('hidden');setAuthMode('login')}
+supabaseClient.auth.getSession().then(({data})=>{if(data.session)enterApp(data.session.user)}).catch(()=>{});
+supabaseClient.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_OUT'){el('appScreen').classList.add('hidden');el('authScreen').classList.remove('hidden')}else if(event==='SIGNED_IN'&&session&&!currentUser){setTimeout(()=>enterApp(session.user),0)}});
+
+function fillZones(){const s=el('zoneSelect');zones.forEach((z,i)=>z.places.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p+' · '+money(z.price);s.appendChild(o)}));el('tariffList').innerHTML=zones.map((z,i)=>`<div class="item-row"><div class="row"><b>Zona ${i+1}</b><b class="price">${money(z.price)}</b></div><div class="tiny muted">${z.places.join(' · ')}</div></div>`).join('')}
+function zonePrice(){const selected=el('zoneSelect').value;for(const z of zones)if(z.places.includes(selected))return z.price;return 0}
+function updateEstimate(){}
+function showPage(page){['home','builder','review'].forEach(p=>el(p).classList.toggle('hidden',p!==page));el('cartBar').classList.toggle('hidden',order.length===0||page==='review');window.scrollTo({top:0,behavior:'smooth'})}
+function startCategory(cat){currentCategory=cat;editingIndex=-1;el('builderTitle').textContent=titles[cat];el('builderSubtitle').textContent='Completa los detalles para agregar este servicio.';renderBuilder();showPage('builder')}
+function renderBuilder(){
+ let html='';
+ if(['food','medicine','shopping','deposit'].includes(currentCategory)){
+  const opts=places[currentCategory]||[];
+  html+=`<div class="field"><label>${currentCategory==='deposit'?'Banco':'Establecimiento'}</label><select id="placeSelect"><option value="">Selecciona una opción</option>${opts.map(x=>`<option>${escapeHtml(x)}</option>`).join('')}<option value="Otro">Otro</option></select></div>`;
+  html+=`<div id="otherPlaceWrap" class="field hidden"><label>Nombre del lugar</label><input id="otherPlace" placeholder="Escribe el establecimiento"></div>`;
+  if(currentCategory==='deposit')html+=`<div class="field"><label>Monto del depósito ($)</label><input id="depositAmount" type="number" min="0" step=".01" placeholder="Monto a depositar"></div><div class="notice">La tarifa depende del monto, no de la zona de entrega: hasta $100 = $2.50; hasta $200 = $3.50; más de $200 = $4.50.</div>`;
+  else if(currentCategory==='shopping')html+=`<div class="field"><label>¿Qué artículos necesitas?</label><textarea id="description" placeholder="Detalla productos, cantidades, marcas o medidas..."></textarea></div><div class="notice">Compras: tarifa base de referencia en el centro $2.00. Puede ampliarse según tiempo, peso o volumen. Se suma $0.50 por lugar adicional de compra.</div>`;
+  else html+=`<div class="field"><label>¿Qué deseas pedir?</label><textarea id="description" placeholder="Escribe productos, cantidades y detalles..."></textarea></div>`;
+ }else if(currentCategory==='package'){
+  html+=`<div class="field"><label>Tipo de mandado</label><select id="packageType"><option>Recoger y entregar</option><option>Solo entregar</option><option>Solo recoger</option><option>Mandado personalizado</option></select></div><div class="field"><label>¿Dónde se recoge?</label><input id="pickup" placeholder="Dirección o lugar de recogida"></div><div class="field"><label>¿Dónde se entrega?</label><input id="dropoff" placeholder="Dirección o lugar de entrega"></div><div class="field"><label>Detalles del paquete / mandado</label><textarea id="description" placeholder="Contenido, persona de contacto, indicaciones..."></textarea></div><div class="field"><label>Empresa o punto de referencia (opcional)</label><input id="packageCompany" placeholder="Pedidos Xpress, C807, etc."></div>`;
+ }else{
+  html+=`<div class="field"><label>Servicio a pagar</label><select id="billType"><option>Agua</option><option>Energía eléctrica</option><option>Internet</option><option>Telefonía</option><option>Otro</option></select></div><div class="field"><label>Empresa / proveedor</label><input id="billCompany" placeholder="Nombre de la empresa"></div><div class="field"><label>Número de contrato o referencia</label><input id="billReference" placeholder="Número de recibo o contrato"></div><div class="field"><label>Monto de la factura ($)</label><input id="billAmount" type="number" min="0" step=".01" placeholder="Monto a pagar"></div><div class="field"><label>Indicaciones</label><textarea id="description" placeholder="Información adicional"></textarea></div>`;
+ }
+ html+=`<div class="field"><label>¿Cuántos artículos / unidades? (opcional)</label><input id="quantity" type="number" min="1" value="1"></div>`;
+ el('builderContent').innerHTML=html;
+ const ps=el('placeSelect');if(ps)ps.addEventListener('change',()=>el('otherPlaceWrap').classList.toggle('hidden',ps.value!=='Otro'));
+}
+function addItem(){
+ const cat=currentCategory;let place='',description='',extra={},base=0;
+ const get=id=>el(id)?.value?.trim()||'';
+ if(['food','medicine','shopping','deposit'].includes(cat)){place=get('placeSelect');if(!place){alert('Selecciona el establecimiento.');return}if(place==='Otro'){place=get('otherPlace');if(!place){alert('Escribe el nombre del lugar.');return}}
+  description=get('description');
+  if(cat==='deposit'){const amount=Number(get('depositAmount'));if(!(amount>0)){alert('Escribe un monto válido.');return}extra.amount=amount;base=amount<=100?2.5:amount<=200?3.5:4.5;description='Depósito de '+money(amount)}
+  else if(cat==='shopping'){if(!description){alert('Detalla los artículos que necesitas.');return}base=2}
+  else{if(!description){alert('Escribe qué deseas pedir.');return}}
+ }else if(cat==='package'){extra.type=get('packageType');extra.pickup=get('pickup');extra.dropoff=get('dropoff');extra.company=get('packageCompany');description=get('description');if(!extra.pickup||!extra.dropoff){alert('Completa el lugar de recogida y entrega.');return}if(!description)description='Mandado / paquete';place=extra.company||'Mandado';}
+ else{extra.billType=get('billType');extra.company=get('billCompany');extra.reference=get('billReference');extra.amount=Number(get('billAmount'));description=get('description');if(!extra.company||!extra.reference||!(extra.amount>0)){alert('Completa empresa, referencia y monto de la factura.');return}place=extra.company;description=extra.billType+' · '+money(extra.amount)+(description?' · '+description:'');base=0}
+ const qty=Math.max(1,Number(get('quantity'))||1);
+ const item={id:Date.now()+Math.random(),category:cat,title:titles[cat],place,description,quantity:qty,base,extra};
+ if(editingIndex>=0){order[editingIndex]=item;editingIndex=-1}else order.push(item);
+ updateSticky();showPage('home');
+}
+function itemCost(item){if(item.category==='deposit')return item.base;if(item.category==='shopping')return item.base+Math.max(0,(item.extra?.extraPlaces||0))*.5;return item.base}
+function deliveryFee(){if(order.length&&order.every(x=>x.category==='deposit'))return 0;const zone=zonePrice();if(!zone)return 0;const pickups=Math.max(0,order.filter(x=>['food','medicine','shopping'].includes(x.category)).length-1);return zone+pickups*1.5}
+function orderSubtotal(){return order.reduce((s,x)=>s+itemCost(x),0)}
+function estimatedTotal(){return orderSubtotal()+deliveryFee()}
+function updateSticky(){el('cartBar').classList.toggle('hidden',order.length===0||el('review').classList.contains('hidden')===false);el('cartAmount').textContent=money(estimatedTotal());el('cartCount').textContent=order.length+' servicio(s) en tu pedido'}
+function renderCart(){el('reviewItems').innerHTML=order.map((x,i)=>`<div class="item-row"><div class="row"><b>${escapeHtml(x.title)} · ${escapeHtml(x.place)}</b><button class="link-btn" onclick="removeItem(${i})">Quitar</button></div><div class="tiny muted">${escapeHtml(x.description)} · Cantidad: ${x.quantity}</div>${x.extra?.amount?`<div class="tiny muted">Monto: ${money(x.extra.amount)}</div>`:''}<div class="row" style="margin-top:6px"><span class="tiny muted">Tarifa de servicio</span><b>${money(itemCost(x))}</b></div></div>`).join('');el('reviewDelivery').textContent=money(deliveryFee());el('reviewTotal').textContent=money(estimatedTotal())}
+function removeItem(i){order.splice(i,1);updateSticky();if(!order.length)showPage('home');else renderCart()}
+function goReview(){if(!order.length){alert('Agrega al menos un servicio.');return}if(!validateAddress())return;renderReview();showPage('review')}
+function renderReview(){renderCart();setPayment();setDelivery()}
+function validateAddress(){if(!currentUser){alert('Inicia sesión para continuar.');return false}if(!el('customerName').value.trim()||!el('customerPhone').value.trim()||!el('zoneSelect').value||!el('street').value.trim()){alert('Completa nombre, teléfono, zona y calle o colonia.');return false}return true}
+function setPayment(){el('cashWrap').classList.toggle('hidden',el('paymentMethod').value!=='Efectivo')}
+function setDelivery(){el('scheduleWrap').classList.toggle('hidden',el('deliveryMode').value!=='Programado')}
+function shareLocation(){if(!navigator.geolocation){el('gpsStatus').textContent='Tu navegador no permite compartir ubicación.';return}el('gpsStatus').textContent='Obteniendo ubicación...';navigator.geolocation.getCurrentPosition(pos=>{gpsLink=`https://maps.google.com/?q=${pos.coords.latitude},${pos.coords.longitude}`;el('gpsStatus').textContent='Ubicación agregada correctamente.'},()=>{el('gpsStatus').textContent='No se pudo obtener la ubicación. Revisa los permisos del navegador.'},{enableHighAccuracy:true,timeout:12000})}
+function saveCustomer(){localStorage.setItem('gd_name',el('customerName').value.trim());localStorage.setItem('gd_phone',el('customerPhone').value.trim());localStorage.setItem('gd_street',el('street').value.trim());localStorage.setItem('gd_house',el('house').value.trim());localStorage.setItem('gd_reference',el('reference').value.trim())}
+function addressText(){return [el('zoneSelect').value,el('street').value.trim(),el('house').value.trim()?'Casa '+el('house').value.trim():'',el('reference').value.trim()?'Referencia: '+el('reference').value.trim():''].filter(Boolean).join(', ')}
+function sendWhatsApp(){
+ if(!validateAddress())return;
+ const method=el('paymentMethod').value,cash=el('cashAmount').value,mode=el('deliveryMode').value,scheduled=el('scheduleTime').value;
+ if(method==='Efectivo'&&(!cash||Number(cash)<estimatedTotal())){alert('Indica con cuánto pagarás. Debe cubrir el total estimado de '+money(estimatedTotal())+'.');return}
+ if(mode==='Programado'&&!scheduled){alert('Selecciona la fecha y hora de entrega.');return}
+ saveCustomer();
+ let msg='*NUEVO PEDIDO - GONZÁLEZ DELIVERY*%0A';
+ msg+=`%0A*Cliente:* ${encodeURIComponent(el('customerName').value.trim())}%0A*Teléfono:* ${encodeURIComponent(el('customerPhone').value.trim())}%0A*Dirección:* ${encodeURIComponent(addressText())}%0A`;
+ msg+='%0A*SERVICIOS:*%0A';
+ order.forEach((x,i)=>{msg+=`%0A${i+1}. *${encodeURIComponent(x.title)}*%0A*Lugar:* ${encodeURIComponent(x.place)}%0A*Detalle:* ${encodeURIComponent(x.description)}%0A*Cantidad:* ${x.quantity}%0A*Tarifa:* ${money(itemCost(x))}%0A`;if(x.extra?.pickup)msg+=`*Recoger:* ${encodeURIComponent(x.extra.pickup)}%0A*Entregar:* ${encodeURIComponent(x.extra.dropoff)}%0A`;if(x.extra?.reference)msg+=`*Referencia:* ${encodeURIComponent(x.extra.reference)}%0A`;if(x.extra?.amount)msg+=`*Monto:* ${money(x.extra.amount)}%0A`});
+ msg+=`%0A*Entrega:* ${money(deliveryFee())}%0A*TOTAL ESTIMADO:* ${money(estimatedTotal())}%0A*Pago:* ${encodeURIComponent(method)}%0A`;
+ if(method==='Efectivo')msg+=`*Paga con:* ${money(cash)}%0A*Cambio estimado:* ${money(Number(cash)-estimatedTotal())}%0A`;
+ msg+=`*Entrega solicitada:* ${encodeURIComponent(mode==='Programado'?scheduled:'Lo antes posible')}%0A`;
+ if(el('extraNotes').value.trim())msg+=`*Indicaciones:* ${encodeURIComponent(el('extraNotes').value.trim())}%0A`;
+ if(gpsLink)msg+=`*GPS:* ${encodeURIComponent(gpsLink)}%0A`;
+ msg+='%0A_Pedido enviado desde González Delivery 2.0_';
+ window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`,'_blank');
+}
+fillZones();
+</script>
+</body>
+</html>
